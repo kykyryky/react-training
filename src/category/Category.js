@@ -7,27 +7,27 @@ class Category extends Component {
 
     render() {
         return (
-            <li>
-                <div>
-                    <div className='item-name'>
-                        {this.props.model.name}
-                    </div>
+            <tr>
+                <td>
+                    {this.props.model.name}
+                </td>
 
-                    <div className='btn-panel'>
-                        <div className='btn'>
-                            <span>&#43;</span>
-                        </div>
+                <td>
+                    {this.props.model.name}
+                </td>
 
-                        <div className='btn'>
-                            <span>&#9998;</span>
-                        </div>
+                <td>
+                    <button type="button" className="btn btn-default">Add</button>                    
+                </td>
 
-                        <div className='btn' onClick={this.onDelete.bind(this)}>
-                            <span>&#10006;</span>
-                        </div>                        
-                    </div>
-                </div>
-            </li>
+                <td>
+                    <button type="button" className="btn btn-default">Edit</button>                    
+                </td>
+
+                <td>
+                    <button  type="button" className="btn btn-danger" onClick={this.onDelete.bind(this)}>Delete</button>
+                </td>                        
+            </tr>
         );
     }
 }

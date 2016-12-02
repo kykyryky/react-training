@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import Todo from './Todo';
 
-import './../common/List.css';
-import './TodoList.css';
-
-
 class TodoList extends Component {
     constructor() {
         super();
@@ -31,7 +27,7 @@ class TodoList extends Component {
             return;
         }
         this.setState({
-            'todos': this.state.todos.concat([{id: this.state.index, name: `${this.state.todoName}`}])
+            'todos': [...this.state.todos, {id: this.state.index, name: `${this.state.todoName}`}]
         });        
         this.state.index++;
         this.setState({todoName: ''});
@@ -42,25 +38,31 @@ class TodoList extends Component {
         this.state.todos.splice(index, 1);
 
         this.setState({
-            'todos': [].concat(this.state.todos)
+            'todos': [...this.state.todos]
         });
     }
 
     render() {
         return (
-            <div className="list todo-list">
-                <div className="header">
-                    <div className="header-panel">
-                        <input 
-                            type="text" 
-                            className="input-field"
+            <div className="col-md-6">
+                <div className="row">
+                    <div className="col-md-7 form-group form-inline">
+                        <label>Name: </label>
+                        <input type="text"
                             value={this.state.todoName} 
                             onChange={this.handleChangeTodoName.bind(this)}
-                            /> 
-                        <div className="btn" onClick={this.addTodo.bind(this)} ><span>Add</span></div>
+                            className="form-control" 
+                            placeholder="Todo name"/>
+                        <button className="btn btn-default" onClick={this.addTodo.bind(this)}>Add</button>
                     </div>
                 </div>
-                <ul>
+                <table class="table table-condensed">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
                     { this.state.todos.map((todo, index) => {
                         return <Todo 
                                 key={todo.id} 
@@ -69,7 +71,7 @@ class TodoList extends Component {
                         </Todo>;
                     }
                     )}
-                </ul>
+                </table>
             </div>            
         );
     }    

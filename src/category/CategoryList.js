@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import Category from './Category';
 
-import './../common/List.css';
-import './CategoryList.css';
-
 class CategoryList extends Component {
     constructor() {
         super();        
@@ -24,7 +21,7 @@ class CategoryList extends Component {
             return;
         }
         this.setState({
-            'categories': this.state.categories.concat([{id: this.state.index, name: `${this.state.newCategoryName}`}])
+            'categories': [...this.state.categories, {id: this.state.index, name: `${this.state.newCategoryName}`}]
         });        
         this.state.index++;
         this.setState({newCategoryName: ''});
@@ -35,7 +32,7 @@ class CategoryList extends Component {
         this.state.categories.splice(index, 1);
 
         this.setState({
-            'categories': [].concat(this.state.categories)
+            'categories': [...this.state.categories]
         });
     }
 
@@ -49,19 +46,26 @@ class CategoryList extends Component {
 
     render() {
         return (
-            <div className="category-list list">
-                <div className="header">
-                    <div className="header-panel">
-                        <input 
-                            type="text" 
-                            className="input-field"
+            <div className="col-md-6">
+                <div className="row">
+                    <div className="col-md-7 form-group form-inline">
+                        <label>Name: </label>
+                        <input type="text"
                             value={this.state.newCategoryName} 
-                            onChange={this.handleChangeCategoryName.bind(this)}
-                            /> 
-                        <div className="btn" onClick={this.addCategory.bind(this)} ><span>Add</span></div>
+                            onChange={this.handleChangeCategoryName.bind(this)} 
+                            className="form-control" 
+                            placeholder="Category name"/>
+                        <button type="submit" className="btn btn-default" onClick={this.addCategory.bind(this)}>Add</button>
                     </div>
                 </div>
-                <ul>
+                <table class="table table-condensed">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
                     { this.state.categories.map((category, index) => {
                         return <Category 
                                 key={category.id} 
@@ -70,7 +74,7 @@ class CategoryList extends Component {
                         </Category>;
                     }
                     )}
-                </ul>
+                </table>
             </div>
         );
     }
