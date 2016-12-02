@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 
 class Category extends Component {
     onDelete() {
@@ -17,11 +18,19 @@ class Category extends Component {
                 </td>
 
                 <td>
-                    <button type="button" className="btn btn-default">Add</button>                    
+                    <Link to={`/category/add/${this.props.model.id}`}>
+                        <button type="button" className="btn btn-default">
+                            Add
+                        </button>
+                    </Link>                    
                 </td>
 
                 <td>
-                    <button type="button" className="btn btn-default">Edit</button>                    
+                    <Link to={`/category/edit/${this.props.model.id}`}>
+                        <button type="button" className="btn btn-default">
+                            Edit
+                        </button>
+                    </Link>                    
                 </td>
 
                 <td>
