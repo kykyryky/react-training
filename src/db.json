@@ -1,0 +1,19 @@
+{
+    "category": [
+        {"id": 1, "name": "Category 1"},
+        {"id": 2, "name": "Category 2"},
+        {"id": 3, "name": "Category 3"},
+        {"id": 4, "name": "Category 4"},
+        {"id": 5, "name": "Category 5"},
+        {"id": 6, "name": "Category 6"},
+        {"id": 7, "name": "Category 7"}
+    ],
+    "todo": [
+        {"id": 1, "name": "Todo 1"},
+        {"id": 2, "name": "Todo 2"},
+        {"id": 3, "name": "Todo 3"},
+        {"id": 4, "name": "Todo 4"},
+        {"id": 5, "name": "Todo 5"},
+        {"id": 6, "name": "Todo 6"}
+    ]
+}
