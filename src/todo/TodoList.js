@@ -56,13 +56,14 @@ class TodoList extends Component {
                         <button className="btn btn-default" onClick={this.addTodo.bind(this)}>Add</button>
                     </div>
                 </div>
-                <table class="table table-condensed">
+                <table className="table table-condensed">
+                    <tbody>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
                         <th></th>
                         <th></th>
-                    </tr>
+                    </tr>                    
                     { this.state.todos.map((todo, index) => {
                         return <Todo 
                                 key={todo.id} 
@@ -71,6 +72,7 @@ class TodoList extends Component {
                         </Todo>;
                     }
                     )}
+                    </tbody>
                 </table>
             </div>            
         );

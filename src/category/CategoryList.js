@@ -1,43 +1,44 @@
 import React, {Component} from 'react';
 import Category from './Category';
 
+import CategoryService from '../service/CategoryService';
+
 class CategoryList extends Component {
     constructor() {
         super();        
         this.state = {
-            index: 1,
+            index: 10,
             newCategoryName: '',
-            categories: []            
-        }
-
-        while (this.state.index <= 5) {
-            this.state.categories.push({id: this.state.index, name: `Category ${this.state.index}`});
-            this.state.index++;
+            categories: CategoryService.list()        
         }
     }
 
-    addCategory(parent) {
-        if (!this.state.newCategoryName) {
-            return;
-        }
+    componentWillMount() {
         this.setState({
-            'categories': [...this.state.categories, {id: this.state.index, name: `${this.state.newCategoryName}`}]
-        });        
-        this.state.index++;
-        this.setState({newCategoryName: ''});
-    }
-
-    removeCategory(id) {
-        let index = this.state.categories.findIndex((category) => category.id === id);
-        this.state.categories.splice(index, 1);
-
-        this.setState({
-            'categories': [...this.state.categories]
+            categories: CategoryService.list(),
+            newCategoryName: ''
         });
     }
 
-    editCategory(category) {
+    onClickAddCategory(parent) {
+        if (!this.state.newCategoryName) {
+            return;
+        }
+        let category = {
+            name: `${this.state.newCategoryName}`
+        }
+        CategoryService.add(category);
+        this.setState({
+            categories: CategoryService.list(),
+            newCategoryName: ''
+        });
+    }
 
+    removeCategory(id) {
+        CategoryService.remove(id);
+        this.setState({
+            'categories': CategoryService.list()
+        });
     }
 
     handleChangeCategoryName(event) {
@@ -55,17 +56,18 @@ class CategoryList extends Component {
                             onChange={this.handleChangeCategoryName.bind(this)} 
                             className="form-control" 
                             placeholder="Category name"/>
-                        <button type="submit" className="btn btn-default" onClick={this.addCategory.bind(this)}>Add</button>
+                        <button type="submit" className="btn btn-default" onClick={this.onClickAddCategory.bind(this)}>Add</button>
                     </div>
                 </div>
-                <table class="table table-condensed">
+                <table className="table table-condensed">
+                    <tbody>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
                         <th></th>
                         <th></th>
                         <th></th>
-                    </tr>
+                    </tr>                    
                     { this.state.categories.map((category, index) => {
                         return <Category 
                                 key={category.id} 
@@ -74,6 +76,7 @@ class CategoryList extends Component {
                         </Category>;
                     }
                     )}
+                    </tbody>
                 </table>
             </div>
         );
