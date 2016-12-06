@@ -6,20 +6,26 @@ class CategoryForm extends Component {
     constructor() {
         super();
         this.state = {
-            newCategoryName:''
+            name: '',
+            description: ''
         };
     }
 
-    handleChangeCategoryName(event) {
-        this.setState({newCategoryName: event.target.value});
+    handleChangeName(event) {
+        this.setState({name: event.target.value});
     }
 
-    addCategory() {
-        if (!this.state.newCategoryName) {
+    handleDescription(event) {
+        this.setState({description: event.target.value});
+    }
+
+    add() {
+        if (!this.state.name) {
             return;
         }
         let category = {
-            name: `${this.state.newCategoryName}`
+            name: `${this.state.name}`,
+            description: `${this.state.description}`
         }
         CategoryService.add(category);
 
@@ -30,15 +36,26 @@ class CategoryForm extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-7 form-group form-inline">
+                    <div className="form-group">
                         <label>Name: </label>
                         <input type="text"
-                            value={this.state.newCategoryName} 
-                            onChange={this.handleChangeCategoryName.bind(this)} 
+                            value={this.state.name} 
+                            onChange={this.handleChangeName.bind(this)} 
                             className="form-control" 
-                            placeholder="Category name"/>
-                        <button type="submit" className="btn btn-default" onClick={this.addCategory.bind(this)}>Add</button>
+                            placeholder="Category name"/>                        
                     </div>
+
+                    <div className="form-group">
+                        <label>Description: </label>
+
+                        <textarea className="form-control" rows="3"
+                            value={this.state.description} 
+                            onChange={this.handleDescription.bind(this)}  
+                            placeholder="Description"
+                        ></textarea>                        
+                    </div>
+
+                    <button type="submit" className="btn btn-default" onClick={this.add.bind(this)}>Add</button>
                 </div>
             </div>
         );

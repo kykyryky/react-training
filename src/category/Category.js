@@ -14,7 +14,7 @@ class Category extends Component {
                 </td>
 
                 <td>
-                    {this.props.model.name}
+                    {this.props.model.description}
                 </td>
 
                 <td>

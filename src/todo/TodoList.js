@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
 import Todo from './Todo';
 
+import TodoService from '../service/TodoService';
+
 class TodoList extends Component {
     constructor() {
         super();
         this.state = {
             todos: [],
-            index: 1,
             todoName: '' 
         }
+    }
 
-        while(this.state.index <= 5) {
-            this.state.todos.push({
-                id: this.state.index,
-                name: `Todo ${this.state.index++}`
-            })
-        }
+    componentWillMount() {
+        this.setState({
+            todos: TodoService.list(),
+            todoName: ''
+        });
     }
 
     handleChangeTodoName(event) {
@@ -26,19 +27,22 @@ class TodoList extends Component {
         if (!this.state.todoName) {
             return;
         }
+        const todo = {
+            name: `${this.state.todoName}`
+        };
+        
+        TodoService.add(todo);
         this.setState({
-            'todos': [...this.state.todos, {id: this.state.index, name: `${this.state.todoName}`}]
-        });        
-        this.state.index++;
-        this.setState({todoName: ''});
+            todoName: '',
+            todos: TodoService.list()
+        });
     }
 
     removeTodo(id) {
-        let index = this.state.todos.findIndex((todo) => todo.id === id);
-        this.state.todos.splice(index, 1);
+        TodoService.remove(id);
 
         this.setState({
-            'todos': [...this.state.todos]
+            'todos': TodoService.list()
         });
     }
 
@@ -47,7 +51,6 @@ class TodoList extends Component {
             <div className="col-md-6">
                 <div className="row">
                     <div className="col-md-7 form-group form-inline">
-                        <label>Name: </label>
                         <input type="text"
                             value={this.state.todoName} 
                             onChange={this.handleChangeTodoName.bind(this)}
@@ -56,14 +59,17 @@ class TodoList extends Component {
                         <button className="btn btn-default" onClick={this.addTodo.bind(this)}>Add</button>
                     </div>
                 </div>
-                <table className="table table-condensed">
-                    <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th></th>
-                        <th></th>
-                    </tr>                    
+                <table className="table table-striped">                    
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Done</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                    
                     { this.state.todos.map((todo, index) => {
                         return <Todo 
                                 key={todo.id} 
