@@ -3,10 +3,6 @@ class FakeRestService {
         this.index = 1;
         this.items = [];
         this.name = name;
-        while (this.index <= 5) {
-            this.items.push({id: this.index, name: `${this.name} ${this.index}`, children:[]});
-            this.index++;
-        }
     }
 
     list() {

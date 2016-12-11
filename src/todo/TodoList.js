@@ -1,20 +1,18 @@
 import React, {Component} from 'react';
 import Todo from './Todo';
 
-import TodoService from '../service/TodoService';
+import TodoStore from '../stores/TodoStore';
 
 class TodoList extends Component {
     constructor() {
         super();
         this.state = {
-            todos: [],
             todoName: '' 
         }
     }
 
     componentWillMount() {
         this.setState({
-            todos: TodoService.list(),
             todoName: ''
         });
     }
@@ -31,19 +29,14 @@ class TodoList extends Component {
             name: `${this.state.todoName}`
         };
         
-        TodoService.add(todo);
+        TodoStore.add(this.props.selected.id, todo);
         this.setState({
-            todoName: '',
-            todos: TodoService.list()
+            todoName: ''
         });
     }
 
     removeTodo(id) {
-        TodoService.remove(id);
-
-        this.setState({
-            'todos': TodoService.list()
-        });
+        TodoStore.remove(this.props.selected.id, id);
     }
 
     render() {
@@ -70,7 +63,7 @@ class TodoList extends Component {
                         </tr>
                     </thead>
                     <tbody>                    
-                    { this.state.todos.map((todo, index) => {
+                    { this.props.selected.todos.map((todo, index) => {
                         return <Todo 
                                 key={todo.id} 
                                 model={todo} 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CategoryService from '../service/CategoryService';
+import CategoryStore from '../stores/CategoryStore';
 import { browserHistory } from 'react-router';
 
 class CategoryForm extends Component {
@@ -27,7 +27,7 @@ class CategoryForm extends Component {
             name: `${this.state.name}`,
             description: `${this.state.description}`
         }
-        CategoryService.add(category);
+        CategoryStore.add(category);
 
         browserHistory.push('/');
     }

@@ -6,10 +6,14 @@ class Category extends Component {
         this.props.onDelete(this.props.model.id);
     }
 
+    onSelect() {
+        this.props.onSelect(this.props.model);
+    }
+
     render() {
         return (
             <tr>
-                <td>
+                <td onClick={this.onSelect.bind(this)} role="button">
                     {this.props.model.name}
                 </td>
 
