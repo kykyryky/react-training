@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import Todo from './Todo';
 
-import TodoStore from '../stores/TodoStore';
-
 class TodoList extends Component {
     constructor() {
         super();
@@ -29,14 +27,15 @@ class TodoList extends Component {
             name: `${this.state.todoName}`
         };
         
-        TodoStore.add(this.props.selected.id, todo);
         this.setState({
             todoName: ''
         });
+
+        this.props.addTodo(this.props.selected.id, todo);
     }
 
-    removeTodo(id) {
-        TodoStore.remove(this.props.selected.id, id);
+    deleteTodo(id) {
+        this.props.deleteTodo(this.props.selected.id, id);
     }
 
     render() {
@@ -63,11 +62,12 @@ class TodoList extends Component {
                         </tr>
                     </thead>
                     <tbody>                    
-                    { this.props.selected.todos.map((todo, index) => {
+                    { 
+                        this.props.selected && this.props.selected.todos.map((todo, index) => {
                         return <Todo 
                                 key={todo.id} 
                                 model={todo} 
-                                onDelete={this.removeTodo.bind(this)}>
+                                onDelete={this.deleteTodo.bind(this)}>
                         </Todo>;
                     }
                     )}

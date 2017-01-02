@@ -10,16 +10,24 @@ import TodoForm from './todo/TodoForm';
 
 import './index.css';
 
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import {appReducers} from './stores/reducers';
+
+const store = createStore(combineReducers({categories: appReducers}), {
+  categories: []
+});
+
 render((
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Home}/>
-      <Route path="category/add/:parentId" component={CategoryForm}/>
-      <Route path="category/edit/:categoryId" component={CategoryForm}/>
-      <Route path="todo/:todoId" component={TodoForm}/>      
-    </Route>
-  </Router>
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Home}/>
+        <Route path="category/:mode/:id" component={CategoryForm}/>
+        <Route path="todo/:todoId" component={TodoForm}/>      
+      </Route>
+    </Router>
+  </Provider>
   ),
   document.getElementById('root')
 );
-

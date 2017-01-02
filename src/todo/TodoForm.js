@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import TodoStore from '../stores/TodoStore';
 import { browserHistory } from 'react-router';
 
 class TodoForm extends Component {
@@ -33,7 +32,6 @@ class TodoForm extends Component {
             description: `${this.state.description}`,
             done: `${this.state.done}`
         }
-        TodoStore.add(todo);
 
         browserHistory.push('/');
     }

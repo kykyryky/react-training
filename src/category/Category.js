@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
+import './Category.css';
 
 class Category extends Component {
+    countLeft() {
+        return {
+            paddingLeft: this.props.model.level * 15
+        }
+    }
+
+    active(current, selected) {
+        return current === selected ? 'active': '';
+    }
+
     onDelete() {
         this.props.onDelete(this.props.model.id);
     }
@@ -12,9 +23,11 @@ class Category extends Component {
 
     render() {
         return (
-            <tr>
-                <td onClick={this.onSelect.bind(this)} role="button">
-                    {this.props.model.name}
+            <tr className={this.active(this.props.model.id, this.props.selected ? this.props.selected.id : null)}>
+                <td onClick={this.onSelect.bind(this)} role="button" style={this.countLeft()}>
+                    <a href='#'>
+                        {this.props.model.name}
+                    </a>
                 </td>
 
                 <td>
@@ -39,7 +52,7 @@ class Category extends Component {
 
                 <td>
                     <button  type="button" className="btn btn-danger" onClick={this.onDelete.bind(this)}>Delete</button>
-                </td>                        
+                </td> 
             </tr>
         );
     }

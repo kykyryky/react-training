@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
-import CategoryStore from '../stores/CategoryStore';
 import { browserHistory } from 'react-router';
 
+import {connect} from 'react-redux';
+
+import {addCategory, updateCategory} from '../stores/actions';
+import {searchById} from '../stores/utils';
+
 class CategoryForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            name: '',
-            description: ''
+            name: this.props.name || '',
+            description: this.props.description || ''
         };
     }
 
@@ -19,15 +23,21 @@ class CategoryForm extends Component {
         this.setState({description: event.target.value});
     }
 
-    add() {
+    save() {
         if (!this.state.name) {
             return;
         }
-        let category = {
+        const category = {
             name: `${this.state.name}`,
             description: `${this.state.description}`
         }
-        CategoryStore.add(category);
+        
+        if (this.props.params.mode !== 'edit') {
+            this.props.dispatch(addCategory(category, this.props.params.id));
+        } else {
+            category.id = this.props.id;
+            this.props.dispatch(updateCategory(category));
+        }
 
         browserHistory.push('/');
     }
@@ -55,11 +65,19 @@ class CategoryForm extends Component {
                         ></textarea>                        
                     </div>
 
-                    <button type="submit" className="btn btn-default" onClick={this.add.bind(this)}>Add</button>
+                    <button type="submit" className="btn btn-default" onClick={this.save.bind(this)}>Save</button>
                 </div>
             </div>
         );
     }
 }
 
-export default CategoryForm;
+const propsMapper = (state, ownProps) => {
+    if (ownProps.params.mode !== 'edit') {
+        return {};    
+    }
+    const {id, name, description} = searchById(state.categories, ownProps.params.id);
+    return {id, name, description};    
+}
+
+export default connect(propsMapper)(CategoryForm);
