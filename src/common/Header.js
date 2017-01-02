@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 class Header extends Component {
     render() {
         return (
-            <Link to={'/home'}>
+            <Link to={'/'}>
                 <div className='header col-md-12'>
                     <h1>
                         To-Do List

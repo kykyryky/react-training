@@ -23,9 +23,8 @@ class CategoryList extends Component {
         this.props.addCategory(category);
     }
 
-    onClickCategory(category) {
-        this.props.changeSelected(category);
-        this.setState({selected: category});
+    onClickCategory(selected) {
+        this.props.changeSelected(selected);
     }
 
     deleteCategory(id) {
@@ -65,7 +64,7 @@ class CategoryList extends Component {
                         return <Category 
                                 onSelect={this.onClickCategory.bind(this)}
                                 key={category.id}
-                                selected={this.state.selected}
+                                selected={this.props.selected ? this.props.selected.id : null}
                                 model={category} 
                                 onDelete={this.deleteCategory.bind(this)}>
                         </Category>;

@@ -10,7 +10,7 @@ class Category extends Component {
     }
 
     active(current, selected) {
-        return current === selected ? 'active': '';
+        return current == selected ? 'active': '';
     }
 
     onDelete() {
@@ -23,7 +23,7 @@ class Category extends Component {
 
     render() {
         return (
-            <tr className={this.active(this.props.model.id, this.props.selected ? this.props.selected.id : null)}>
+            <tr className={this.active(this.props.model.id, this.props.selected)}>
                 <td onClick={this.onSelect.bind(this)} role="button" style={this.countLeft()}>
                     <a href='#'>
                         {this.props.model.name}
@@ -34,25 +34,33 @@ class Category extends Component {
                     {this.props.model.description}
                 </td>
 
-                <td>
-                    <Link to={`/category/add/${this.props.model.id}`}>
-                        <button type="button" className="btn btn-default">
-                            Add
-                        </button>
-                    </Link>                    
-                </td>
-
-                <td>
-                    <Link to={`/category/edit/${this.props.model.id}`}>
-                        <button type="button" className="btn btn-default">
-                            Edit
-                        </button>
-                    </Link>                    
-                </td>
-
-                <td>
-                    <button  type="button" className="btn btn-danger" onClick={this.onDelete.bind(this)}>Delete</button>
-                </td> 
+                {
+                !this.props.readOnly && 
+                    <td>
+                        <Link to={`/category/add/${this.props.model.id}`}>
+                                <button type="button" className="btn btn-default">
+                                    Add child
+                                </button>
+                            </Link>                    
+                        
+                    </td>
+                }
+                {
+                !this.props.readOnly && 
+                    <td>
+                        <Link to={`/category/edit/${this.props.model.id}`}>
+                            <button type="button" className="btn btn-default">
+                                Edit
+                            </button>
+                        </Link>                    
+                    </td>
+                }
+                {
+                !this.props.readOnly && 
+                    <td>
+                        <button  type="button" className="btn btn-danger" onClick={this.onDelete.bind(this)}>Delete</button>
+                    </td> 
+                }
             </tr>
         );
     }

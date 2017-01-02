@@ -66,7 +66,8 @@ class TodoList extends Component {
                         this.props.selected && this.props.selected.todos.map((todo, index) => {
                         return <Todo 
                                 key={todo.id} 
-                                model={todo} 
+                                model={todo}
+                                catalog={this.props.selected}
                                 onDelete={this.deleteTodo.bind(this)}>
                         </Todo>;
                     }

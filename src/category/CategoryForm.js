@@ -3,8 +3,8 @@ import { browserHistory } from 'react-router';
 
 import {connect} from 'react-redux';
 
-import {addCategory, updateCategory} from '../stores/actions';
-import {searchById} from '../stores/utils';
+import {addCategory, updateCategory} from '../store/actions';
+import {searchById} from '../store/utils';
 
 class CategoryForm extends Component {
     constructor(props) {
