@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import {remove, find, isEmpty, reduce} from 'lodash';
 
 export function searchById(tree, id) {
     let stack = [...tree];
@@ -53,16 +53,16 @@ export function flatten(treeObj, idAttr, parentAttr, childrenAttr, levelAttr) {
 
 export function filter(categories, query = {}) {
     const {filterTextInput, onlyDone} = query;
-    _.remove(categories, (category) => {
+    remove(categories, (category) => {
         let remove = false;
         if (filterTextInput && category.name.indexOf(filterTextInput) === -1) {
             remove = true;
         }
 
         const todos = category.todos;
-        const notDone = !!_.find(todos, (todo) => !todo.done);
+        const notDone = !!find(todos, (todo) => !todo.done);
 
-        if (!remove && !_.isEmpty(onlyDone) && onlyDone === 'true' && notDone) {
+        if (!remove && !isEmpty(onlyDone) && onlyDone === 'true' && notDone) {
             remove = true;
         }
 
@@ -76,8 +76,8 @@ export function filter(categories, query = {}) {
 
 export function getProgress(categories) {
     const all = categories.length;
-    const completed =_.reduce(categories, (result, value) => {
-        if (_.isEmpty(value.todos)) {            
+    const completed = reduce(categories, (result, value) => {
+        if (isEmpty(value.todos)) {            
             return result;
         }
 

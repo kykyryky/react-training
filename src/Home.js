@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import _ from 'lodash';
 
 import CategoryList from './category/CategoryList';
 import TodoList from './todo/TodoList';
@@ -67,13 +66,9 @@ class Home extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
     const selected = ownProps.params.id ? searchById(state.categories, ownProps.params.id) : null;
-    console.log(1);
     const progress = getProgress(flatten({children: state.categories}));
-    console.log(2);
     const filteredTree = [...state.categories];
     filter(filteredTree, ownProps.location.query);
-    console.log(3);
-    console.log(filteredTree);
     const categories = flatten({children: filteredTree});
 
     return {
