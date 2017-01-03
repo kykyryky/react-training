@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export function searchById(tree, id) {
     let stack = [...tree];
 
@@ -48,3 +50,47 @@ export function flatten(treeObj, idAttr, parentAttr, childrenAttr, levelAttr) {
     var result = processChildren(treeObj);
     return result;
 };
+
+export function filter(categories, query = {}) {
+    const {filterTextInput, onlyDone} = query;
+    _.remove(categories, (category) => {
+        let remove = false;
+        if (filterTextInput && category.name.indexOf(filterTextInput) === -1) {
+            remove = true;
+        }
+
+        const todos = category.todos;
+        const notDone = !!_.find(todos, (todo) => !todo.done);
+
+        if (!remove && !_.isEmpty(onlyDone) && onlyDone === 'true' && notDone) {
+            remove = true;
+        }
+
+        return remove;
+    });
+
+    for (let category of categories) {
+        filter(category.children, query);
+    }
+}
+
+export function getProgress(categories) {
+    const all = categories.length;
+    const completed =_.reduce(categories, (result, value) => {
+        if (_.isEmpty(value.todos)) {            
+            return result;
+        }
+
+        for (const todo of value.todos) {
+            if (!todo.done) {
+                return result;
+            }            
+        }
+        
+        return ++result;
+    }, 0);
+
+    const progress = completed/all * 100;
+
+    return progress;
+}

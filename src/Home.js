@@ -4,8 +4,11 @@ import _ from 'lodash';
 
 import CategoryList from './category/CategoryList';
 import TodoList from './todo/TodoList';
+import Progress from './common/Progress';
+import SearchBar from './common/SearchBar';
+
 import {addCategory, deleteCategory, addTodo, deleteTodo} from './store/actions';
-import {flatten, searchById} from './store/utils';
+import {flatten, searchById, getProgress, filter} from './store/utils';
 
 class Home extends Component {
     constructor(props) {
@@ -36,28 +39,16 @@ class Home extends Component {
         this.props.dispatch(deleteTodo(catalogId, id));
     }
 
-    progress () {
-        return {
-            width: `${this.props.progress}%`
-        }
-    }
-
     render() {
         return (
             <div className='home-container'>
-
-                <div className="row">
-                    <div className='col-md-12'>
-                        <div className='progress'>
-                            <div className='progress-bar' role='progressbar' aria-valuenow={this.props.progress}
-                            aria-valuemin='0' aria-valuemax='100' style={this.progress()}>
-                                <span className='sr-only'>{this.props.progress}% Complete</span>
-                            </div>
-                        </div>
-                    </div>
+                <SearchBar/>
+                <div className="row">                    
+                    <Progress progress={this.props.progress}/>
                     <CategoryList 
                         categories={this.props.categories}
                         selected={this.state.selected}
+                        filter={this.props.filter}
                         addCategory={this.addCategory.bind(this)} 
                         changeSelected={this.changeSelected.bind(this)}
                         deleteCategory={this.deleteCategory.bind(this)}/>                
@@ -76,22 +67,14 @@ class Home extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
     const selected = ownProps.params.id ? searchById(state.categories, ownProps.params.id) : null;
-    const categories = flatten({children: state.categories});
-    const all = categories.length;
-    const completed =_.reduce(categories, (result, value) => {
-        if (_.isEmpty(value.todos)) {
-            return result;
-        }
-        console.log(value);
-        for (const todo of value.todos) {
-            if (!todo.done) {
-                return result;
-            }            
-        }
-        return ++result;
-    }, 0);
-
-    const progress = completed/all * 100;
+    console.log(1);
+    const progress = getProgress(flatten({children: state.categories}));
+    console.log(2);
+    const filteredTree = [...state.categories];
+    filter(filteredTree, ownProps.location.query);
+    console.log(3);
+    console.log(filteredTree);
+    const categories = flatten({children: filteredTree});
 
     return {
         progress: progress,
