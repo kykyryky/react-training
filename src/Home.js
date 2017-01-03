@@ -42,7 +42,10 @@ class Home extends Component {
         return (
             <div className='home-container'>
                 <SearchBar/>
-                <div className="row">                    
+                {
+                    this.props.pending && <div className="loader"/>
+                }
+                <div className="row">                 
                     <Progress progress={this.props.progress}/>
                     <CategoryList 
                         categories={this.props.categories}
@@ -74,7 +77,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         progress: progress,
         selected,
-        categories: categories
+        categories: categories,
+        pending: state.pending
     }
 }
 

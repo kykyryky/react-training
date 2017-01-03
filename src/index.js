@@ -10,13 +10,18 @@ import TodoForm from './todo/TodoForm';
 
 import './index.css';
 
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import {appReducers} from './store/reducers';
+import {appReducers, pendingReducers} from './store/reducers';
+import promise from 'redux-promise-middleware';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
-const store = createStore(combineReducers({categories: appReducers}), {
-  categories: []
-});
+const middleware = applyMiddleware(thunk, promise(), logger());
+const store = createStore(combineReducers({categories: appReducers, pending: pendingReducers}), {
+  categories: [],
+  pending: false
+}, middleware);
 
 render((
   <Provider store={store}>

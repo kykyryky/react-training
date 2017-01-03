@@ -12,7 +12,6 @@ class SearchBar extends Component {
     }
   
     handleChange() {
-        console.log(browserHistory);
         browserHistory.push(`${browserHistory.getCurrentLocation().pathname}?filterTextInput=${this.filterTextInput.value}&onlyDone=${this.onlyDone.checked}`);
     }
 
