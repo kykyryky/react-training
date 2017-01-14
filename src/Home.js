@@ -26,7 +26,6 @@ class Home extends Component {
     }
 
     changeSelected(category) {
-        console.log(category);
         this.setState({selected: category});
     }
 
@@ -74,12 +73,14 @@ const mapStateToProps = (state, ownProps) => {
     filter(filteredTree, ownProps.location.query);
     const categories = flatten({children: filteredTree});
 
-    return {
+    const props = {
         progress: progress,
         selected,
         categories: categories,
         pending: state.pending
     }
+
+    return props;
 }
 
 

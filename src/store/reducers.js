@@ -1,19 +1,22 @@
 import {ADD_CATEGORY, UPDATE_CATEGORY, DELETE_CATEGORY, ADD_TODO, UPDATE_TODO, DELETE_TODO} from './actions';
 import {searchById} from './utils';
 
-let uniqIndex = 1;
+function generateQuickGuid() {
+    return Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15);
+}
 
 export function appReducers(state = [], action) {
     let category;
     const payload = action.payload;
     switch(action.type) {
         case `${ADD_CATEGORY}_FULFILLED`:                        
-            payload.category.id = uniqIndex++;
+            payload.category.id = generateQuickGuid();
             payload.category.children = [];
             payload.category.todos = [];
             if (payload.parentId) {
                 category = searchById(state, payload.parentId);
-                payload.category.parent = category;
+                payload.category.parentId = category.id;
                 category.children.push(payload.category);
                 return [...state];
             }
@@ -25,12 +28,15 @@ export function appReducers(state = [], action) {
             return [...state];
         case `${DELETE_CATEGORY}_FULFILLED`:
             category = searchById(state, payload.id);
-            let array = category.parent ? category.parent.children : state;
+            if (category.parentId) {
+                parent = searchById(state, category.parent.id);
+            }            
+            let array = category.parentId ? parent.children : state;
             array.splice(array.findIndex((el) => el.id === payload.id), 1);
             return [...state];
         case `${ADD_TODO}_FULFILLED`:
             category = searchById(state, payload.categoryId);
-            payload.todo.id = uniqIndex++;
+            payload.todo.id = generateQuickGuid();
             category.todos.push(payload.todo);
             return [...state];
         case `${UPDATE_TODO}_FULFILLED`:

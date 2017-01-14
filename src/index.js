@@ -18,10 +18,19 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 const middleware = applyMiddleware(thunk, promise(), logger());
-const store = createStore(combineReducers({categories: appReducers, pending: pendingReducers}), {
-  categories: [],
-  pending: false
-}, middleware);
+const localState = localStorage.getItem('state');
+let state = {categories: [], pending: false};
+
+console.log(localState);
+if (localState) {
+  state = JSON.parse(localState);
+}
+
+const store = createStore(combineReducers({categories: appReducers, pending: pendingReducers}), state, middleware);
+
+store.subscribe(() => {  
+  localStorage.setItem('state', JSON.stringify(store.getState()));
+})
 
 render((
   <Provider store={store}>
