@@ -22,8 +22,9 @@ class Category extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
-            <tr className={this.active(this.props.model.id, this.props.selected)}>
+            <tr className={this.active(this.props.model.id, this.props.selected)} style={{display: this.props.hide ? 'none' : '' }}>
                 <td onClick={this.onSelect.bind(this)} role="button" style={this.countLeft()}>
                     <a href='#'>
                         {this.props.model.name}

@@ -7,7 +7,7 @@ import Progress from './common/Progress';
 import SearchBar from './common/SearchBar';
 
 import {addCategory, deleteCategory, addTodo, deleteTodo} from './store/actions';
-import {flatten, searchById, getProgress, filter} from './store/utils';
+import {flatten, searchById, getProgress} from './store/utils';
 
 class Home extends Component {
     constructor(props) {
@@ -70,12 +70,12 @@ const mapStateToProps = (state, ownProps) => {
     const selected = ownProps.params.id ? searchById(state.categories, ownProps.params.id) : null;
     const progress = getProgress(flatten({children: state.categories}));
     const filteredTree = [...state.categories];
-    filter(filteredTree, ownProps.location.query);
     const categories = flatten({children: filteredTree});
 
     const props = {
         progress: progress,
         selected,
+        filter: ownProps.location.query,
         categories: categories,
         pending: state.pending
     }

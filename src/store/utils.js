@@ -51,27 +51,27 @@ export function flatten(treeObj, idAttr, parentAttr, childrenAttr, levelAttr) {
     return result;
 };
 
-export function filter(categories, query = {}) {
+export function filter(category, query = {}) {
     const {filterTextInput, onlyDone} = query;
-    remove(categories, (category) => {
-        let remove = false;
-        if (filterTextInput && category.name.indexOf(filterTextInput) === -1) {
-            remove = true;
+
+    let categoryDone = true;
+
+    for (let todo of category.todos) {
+        categoryDone = todo.done;
+        if (!categoryDone) {
+            break;
         }
-
-        const todos = category.todos;
-        const notDone = !!find(todos, (todo) => !todo.done);
-
-        if (!remove && !isEmpty(onlyDone) && onlyDone === 'true' && notDone) {
-            remove = true;
-        }
-
-        return remove;
-    });
-
-    for (let category of categories) {
-        filter(category.children, query);
     }
+
+    if (!isEmpty(filterTextInput) && category.name.indexOf(filterTextInput) === -1) {
+        return false;
+    }
+
+    if (onlyDone === 'true' && categoryDone !== onlyDone) {
+        return false;
+    }
+
+    return true;
 }
 
 export function getProgress(categories) {

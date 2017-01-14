@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Category from './Category';
+import {filter} from './../store/utils';
 
 class CategoryList extends Component {
     constructor() {
@@ -63,6 +64,7 @@ class CategoryList extends Component {
                         this.props.categories.map((category, index) => {
                         return <Category 
                                 onSelect={this.onClickCategory.bind(this)}
+                                hide={!filter(category, this.props.filter)}
                                 key={category.id}
                                 selected={this.props.selected ? this.props.selected.id : null}
                                 model={category} 

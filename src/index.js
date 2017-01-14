@@ -21,7 +21,6 @@ const middleware = applyMiddleware(thunk, promise(), logger());
 const localState = localStorage.getItem('state');
 let state = {categories: [], pending: false};
 
-console.log(localState);
 if (localState) {
   state = JSON.parse(localState);
 }
