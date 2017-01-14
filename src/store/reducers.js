@@ -29,7 +29,7 @@ export function appReducers(state = [], action) {
         case `${DELETE_CATEGORY}_FULFILLED`:
             category = searchById(state, payload.id);
             if (category.parentId) {
-                parent = searchById(state, category.parent.id);
+                parent = searchById(state, category.parentId);
             }            
             let array = category.parentId ? parent.children : state;
             array.splice(array.findIndex((el) => el.id === payload.id), 1);
