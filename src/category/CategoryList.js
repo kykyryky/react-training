@@ -64,7 +64,7 @@ class CategoryList extends Component {
                         this.props.categories.map((category, index) => {
                         return <Category 
                                 onSelect={this.onClickCategory.bind(this)}
-                                hide={!filter(category, this.props.filter)}
+                                hide={!filter(category, this.props.filter, this.props.categories, index)}
                                 key={category.id}
                                 selected={this.props.selected ? this.props.selected.id : null}
                                 model={category} 

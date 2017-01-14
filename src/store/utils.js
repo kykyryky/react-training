@@ -51,7 +51,26 @@ export function flatten(treeObj, idAttr, parentAttr, childrenAttr, levelAttr) {
     return result;
 };
 
-export function filter(category, query = {}) {
+export function filter(category, query = {}, categories, index) {
+    const children = [];
+
+    for (let i = index + 1; i < categories.length; i++) {
+        if (categories[i].level <= category.level) {
+            break;
+        }
+        children.push(categories[i]);
+    }
+    
+    for (const child of children) {
+        if (_filter(child, query)) {
+            return true;
+        }
+    }
+
+    return _filter(category, query);
+}
+
+function _filter(category, query) {
     const {filterTextInput, onlyDone} = query;
 
     let categoryDone = true;
