@@ -18,5 +18,12 @@ describe('unit test for reducer', () => {
         const updatedState = appReducers([], action);
 
         expect(updatedState.length).toBe(1);
+        
+        const addedCategory = updatedState[0];
+        expect(addedCategory.name).toEqual(category.name);
+        expect(addedCategory.description).toEqual(category.description);
+        expect(addedCategory.id).not.toBeNull();
+        expect(addedCategory.todo).not.toBeNull();
+        expect(addedCategory.children).not.toBeNull();
     });    
 });
